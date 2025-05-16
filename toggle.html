@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .switch-container { 
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      max-width: 300px;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+    .switch input { 
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: #4CAF50;
+    }
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+    .status-text {
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .in-stock {
+      color: #4CAF50;
+    }
+    .on-the-way {
+      color: #FF9800;
+    }
+    .out-of-stock {
+      color: #F44336;
+    }
+  </style>
+</head>
+<body>
+  <div class="switch-container">
+    <label class="switch">
+      <input type="checkbox" id="availability-toggle">
+      <span class="slider"></span>
+    </label>
+    <span id="status-text" class="status-text in-stock">В наявності</span>
+  </div>
+
+  <script>
+    const toggle = document.getElementById('availability-toggle');
+    const statusText = document.getElementById('status-text');
+    const statuses = [
+      { text: "В наявності", class: "in-stock" },
+      { text: "В дорозі", class: "on-the-way" },
+      { text: "Відсутній", class: "out-of-stock" }
+    ];
+    let currentStatus = 0;
+
+    toggle.addEventListener('change', function() {
+      currentStatus = (currentStatus + 1) % statuses.length;
+      statusText.textContent = statuses[currentStatus].text;
+      statusText.className = "status-text " + statuses[currentStatus].class;
+      
+      // Для дебагунгу (можна видалити)
+      console.log("Статус оновлено:", statuses[currentStatus].text);
+    });
+  </script>
+</body>
+</html>
